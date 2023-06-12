@@ -1,0 +1,10 @@
+<%= form_with(model: @task, local: true, url: choose_new_or_edit) do |form| %>
+  <% if @task.error.any? %>
+    <div id ="error_explanation">
+      <h2><%= @task.errors.count %>件のエラーがあります。</h2>
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <ui><%= msg %></li>
+        <%end%>
+        </ul>
+        
