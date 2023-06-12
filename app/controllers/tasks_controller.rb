@@ -1,4 +1,4 @@
-class TaskController < ApplicationController
+class TasksController < ApplicationController
 
   def index
     @task = Task.all
@@ -9,6 +9,7 @@ class TaskController < ApplicationController
   end
 
   def show
+    @task = Task.find(params[:id])
   end
 
   def create
@@ -40,13 +41,13 @@ class TaskController < ApplicationController
   end
 
   def confirm
-    
+
   end
 
   private
 
-  def seto_task
-  @task = Task.find(params[id])
+  def set_task
+  @task = Task.find(params[:id])
   end
 
   def task_params
