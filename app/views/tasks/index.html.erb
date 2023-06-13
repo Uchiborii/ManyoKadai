@@ -1,5 +1,11 @@
 <h2>タスク一覧</h2>
 
+<% flash.each do |key, value| %>
+  <div class="flash <%= key %>">
+    <%= value %>
+  </div>
+<% end %>
+
 <table>
   <tr>
     <th>タイトル</th>
