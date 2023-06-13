@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
     @tasks = Task.all
@@ -6,7 +7,6 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
-    @choose_new_or_edit = tasks_path
   end
 
   def show
@@ -17,8 +17,9 @@ class TasksController < ApplicationController
     if params[:back]
       render :new
     else
+      @task = Task.new(task_params)
       if @task.save
-        redirect_to tasks_path(@task.id), notice: "タスクを作成しました!"
+        redirect_to tasks_path(@task), notice: "タスクを作成しました!"
       else
         render :new
       end
@@ -26,12 +27,11 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @choose_new_or_edit = tasks_path
   end
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task.id), notice: "タスクを編集しました！"
+      redirect_to task_path(@task), notice: "タスクを編集しました！"
     else
       render :edit
     end
