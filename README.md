@@ -41,27 +41,27 @@ task_label
 
 ## ▪️Herokuへのデプロイ方法
 
-Herokuに新しいアプリケーションを作成
+1.Herokuに新しいアプリケーションを作成
 $ heroku create
 
-.Gemfileに以下のgemを追加し、bundle installを実行
+2.Gemfileに以下のgemを追加し、bundle installを実行
 gem 'net-smtp’
 gem 'net-imap’
 gem 'net-pop’
 
-.コミットする
+3.コミットする
 $ git add .
 $ git commit -m “コミットメッセージ”
 
-.Heroku buildpackを追加する
+4.Heroku buildpackを追加する
 $ heroku buildpacks:set heroku/ruby
 $ heroku buildpacks:add --index 1 heroku/nodejs
 
-.HerokuにPostgreSQLのアドオンを追加
+5.HerokuにPostgreSQLのアドオンを追加
 $ heroku addons:create heroku-postgresql
 
-. Herokuにデプロイをする (今回はstep2ブランチから)
+6. Herokuにデプロイをする (今回はstep2ブランチから)
 $ git push heroku step2:master
 
-.データベースの移行
+7.データベースの移行
 $ heroku run rails db:migrate
