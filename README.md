@@ -2,7 +2,7 @@
 
 task
 | カラム名 | データ型 |
-----|---- 
+----|----
 | id | inteher |
 | user_id | integer |
 | title | string |
@@ -13,7 +13,7 @@ task
 
 User
 | カラム名 | データ型 |
-----|---- 
+----|----
 | id | inteher |
 | name | string |
 | email | string |
@@ -23,7 +23,7 @@ User
 
 Label
 | カラム名 | データ型 |
-----|---- 
+----|----
 | id | inteher |
 | name | string |
 | create_at | timestamp |
@@ -32,7 +32,7 @@ Label
 
 task_label
 | カラム名 | データ型 |
-----|---- 
+----|----
 | id | inteher |
 | label_id | integer |
 | task_id | inteher |
@@ -41,20 +41,20 @@ task_label
 
 ## ▪️Herokuへのデプロイ方法
 
-Herokuに新しいアプリケーションを作成 
+Herokuに新しいアプリケーションを作成
 $ heroku create
 
 .Gemfileに以下のgemを追加し、bundle installを実行
-gem 'net-smtp’ 
+gem 'net-smtp’
 gem 'net-imap’
 gem 'net-pop’
 
-.コミットする 
+.コミットする
 $ git add .
-$ git commit -m “コミットメッセージ” 
+$ git commit -m “コミットメッセージ”
 
 .Heroku buildpackを追加する
-$ heroku buildpacks:set heroku/ruby 
+$ heroku buildpacks:set heroku/ruby
 $ heroku buildpacks:add --index 1 heroku/nodejs
 
 .HerokuにPostgreSQLのアドオンを追加
