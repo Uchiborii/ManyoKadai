@@ -20,5 +20,21 @@
     <%= form.text_field :content %>
   </div>
 
+  <div class="limit_date">
+    <%= form.label :limit_date, "終了期限" %>
+    <%= form.date_select :limit_date %>
+  </div>
+
+  <div class="status">
+    <%= form.label :status, "ステータス" %>
+    <%= form.select :status, options_for_select(Task.statuses.keys), {prompt: "選択"} %>
+  </div>
+
+  <div class="priority">
+    <%= form.label :priority, "優先度" %>
+    <%= form.select :priority, options_for_select(Task.priorities.keys), {prompt: "選択"} %>
+  </div>
+
+
   <%= form.submit  "登録" %>
 <% end %>
