@@ -28,8 +28,8 @@
   <tr>
     <td class="task_row"><%= task.title %></td>
     <td><%= task.content %></td>
-    <td class="task_row"><%= task.limit_date %></td>
-    <td class="priprity_high"><%= task.priority %></td>
+    <td class="task_limit"><%= task.limit_date %></td>
+    <td class="priority_high"><%= task.priority %></td>
     <td><%= task.status %></td>
 
     <td><%= link_to '詳細', task_path(task.id) %></td>
