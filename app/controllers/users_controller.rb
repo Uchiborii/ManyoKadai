@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :logged_in,only: [:new,:create]
-  before_action :not_logged_in,only:[:show]
   before_action :forget_user,only: [:show]
+  PER = 10
 
   def new
     @user = User.new
