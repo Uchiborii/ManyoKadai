@@ -28,4 +28,11 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
+  def forget_user
+    if current_user.admin == false
+      if current_user.id != params[:id].to_i
+        redirect_to root_path
+      end
+    end
+  end
 end
