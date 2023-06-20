@@ -1,0 +1,13 @@
+<h1>管理画面のユーザー一覧</h1>
+
+<div class=admin_index>
+  <table>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, user_path(user.id) %></td>
+        <td>タスク数:<%= user.tasks.count %></td>
+      </tr>
+      <rb>
+    <% end %>
+  </table>
+</div>
