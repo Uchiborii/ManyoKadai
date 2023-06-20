@@ -1,5 +1,18 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
+
+  def user_login
+    visit new_session_path
+    fill_in 'session[email]', with: 'sample@example.com'
+    fill_in 'session[password]', with: '00000000'
+    click_button 'ログイン'
+  end
+  before do
+    @user = FactoryBot.create(:user)
+    @admin_user = FactoryBot.create(:admin_user)
+    user_login
+  end
+
   let!(:task)  {FactoryBot.create(:task, title: 'title', limit_date: '2023-05-22')}
   let!(:task1) { FactoryBot.create(:task1, title: 'title1', limit_date:'2024-05-22') }
   let!(:task2) { FactoryBot.create(:task2, title: 'title2', limit_date:'2025-05-22') }
