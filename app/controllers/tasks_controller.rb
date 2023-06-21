@@ -4,6 +4,7 @@ class TasksController < ApplicationController
 
   PER = 10
   def index
+
     if params[:sort_expired]
       @tasks = current_user.tasks.order("limit_date DESC").page(params[:page]).per(PER)
     elsif params[:sort_priority]
