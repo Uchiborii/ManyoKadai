@@ -3,14 +3,16 @@ FactoryBot.define do
     id { 1 }
     name { "kirin" }
     email { "kirin@gmail.com" }
-    password_digest { "123456" }
+    password { "password123" }
+    password_confirmation { "password123" }
     admin { false }
   end
   factory :admin_user, class: User do
     id { 2 }
     name { "admin" }
     email { "adminn@gmail.com" }
-    password_digest { "123456" }
+    password { "password123" }
+    password_confirmation { "password123" }
     admin { true }
   end
 end

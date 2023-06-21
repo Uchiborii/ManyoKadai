@@ -1,11 +1,9 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
+  before_action :not_logged_in
 
   PER = 10
   def index
-    @tasks = current_user.tasks.order(created_at: "DESC").page(params[:page])
-
     if params[:sort_expired]
       @tasks = current_user.tasks.order("limit_date DESC").page(params[:page]).per(PER)
     elsif params[:sort_priority]

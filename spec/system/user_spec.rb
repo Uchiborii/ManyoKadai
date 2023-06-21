@@ -1,32 +1,34 @@
 require 'rails_helper'
-RSpec.describe '【ユーザー登録・ログイン・管理ユーザー画面に関するテスト】' type :system do
+RSpec.describe 'ユーザー登録ログイン管理ユーザー画面に関するテスト', type: :system do
   def user_login
     visit new_session_path
     fill_in 'session[email]', with: 'kirin@gmail.com'
-    fill_in 'session[password]', with: '123456'
-    check_button 'ログイン'
+    fill_in 'session[password]', with: 'password123'
+    click_button 'ログイン'
   end
 
   def admin_user_login
     visit new_session_path
-    fill_in 'session[email]', with: 'admin@gmail.com'
-    fill_in 'session[password]', with: '123456'
-    check_button 'ログイン'
+    fill_in 'session[email]', with: 'adminn@gmail.com'
+    fill_in 'session[password]', with: 'password123'
+    click_button 'ログイン'
   end
 
-  describe'ユーザー登録テスト' do
-    context 'ユーザーのデータが無くログインしていない状態' do
-      it 'ユーザーの新規登録テスト' do
+  describe'ユーザー新規登録テスト' do
+    context 'ユーザーが新規作成した場合' do
+      it 'ユーザーのマイページが表示される' do
         visit new_user_path
         fill_in 'user[name]', with: 'kirin'
         fill_in 'user[email]', with: 'kirin@gmail.com'
         fill_in 'user[password]', with: '123456'
         fill_in 'user[password_confirmation]', with: '123456'
-        click_on '登録'
-        click_link 'マイページ'
-        expect(page).to have_content 'kirin'
+        click_on 'アカウント登録'
+        click_on 'マイページ'
+        expect(page).to have_content 'kirinのページ'
       end
-        it 'ログインしていない時はログイン画面に飛ぶテスト' do
+    end
+    context 'ログインせずタスク一覧に飛ぼうとする場合' do
+      it 'ログイン画面に遷移する' do
         visit root_path
         expect(current_path).to eq new_session_path
       end
@@ -47,7 +49,7 @@ RSpec.describe '【ユーザー登録・ログイン・管理ユーザー画面�
 
     context '一般ユーザーでログインしている状態' do
       it '自分のマイページに飛べること' do
-        click_link 'マイページ'
+        click_on 'マイページ'
         expect(current_path).to eq user_path(1)
       end
 
@@ -81,23 +83,24 @@ RSpec.describe '【ユーザー登録・ログイン・管理ユーザー画面�
       context '管理者でログインしている状態' do
         before do
           admin_user_login
-          click_link '管理'
+          click_on '管理'
+          sleep 1
         end
 
         it '管理者は管理画面にアクセスできること' do
-          expect(current_path).to eq admin_user_path
+          expect(current_path).to eq admin_users_path
         end
 
       it '管理者はユーザーを新規登録できること' do
         click_link 'ユーザー登録'
-        fill_in 'user[name]', with: 'kirin'
-        fill_in 'user[email]', with: 'kirin@gmail.com'
+        fill_in 'user[name]', with: 'zou'
+        fill_in 'user[email]', with: 'zou@gmail.com'
         fill_in 'user[password]', with: '123456'
         fill_in 'user[password_confirmation]', with: '123456'
-        click_on 'アカウント登録'
+        click_button '登録'
 
         visit admin_users_path
-        expect(page).to have_content 'kirin'
+        expect(page).to have_content 'zou'
       end
 
       it '管理者はユーザーの詳細画面にアクセスできること' do
@@ -107,13 +110,17 @@ RSpec.describe '【ユーザー登録・ログイン・管理ユーザー画面�
       end
 
       it '管理者はユーザの編集画面からユーザを編集できること' do
+        visit admin_users_path
         sleep 1
         click_link '編集・削除', href: edit_admin_user_path(1)
 
-        fill_in 'user[name]', with: 'kirin_after'
+        fill_in 'user[name]', with: 'dog'
+        fill_in 'user[email]', with: 'kirin@gmail.com'
+        fill_in 'user[password]', with: 'password123'
+        fill_in 'user[password_confirmation]', with: 'password123'
         click_button '登録'
 
-        expect(page).to have_content 'kirin_after'
+        expect(page).to have_content 'dog'
       end
 
       it '管理者はユーザの削除をできること' do
