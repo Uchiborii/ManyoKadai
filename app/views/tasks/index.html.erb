@@ -36,8 +36,13 @@
                   <td><%= task.content %></td>
                   <td class="task_limit"><%= task.limit_date %></td>
                   <td class="priority_high"><%= task.priority %></td>
+                  </td>
                   <td><%= task.status %></td>
                   <td><%= task.user.name %></td>
+                  <td class = "task_label">
+                  <% task.labels.each do |label| %>
+                    <%= label.name %>
+                  <% end %>
                   <td><%= link_to '詳細', task_path(task.id), class: 'btn btn-primary' %></td>
                   <td><%= link_to "編集", edit_task_path(task.id), class: 'btn btn-success' %></td>
                   <td><%= link_to '削除', task_path(task.id), method: :delete, data: { confirm: '本当に削除していいですか？'}, class: 'btn btn-danger' %></td>
