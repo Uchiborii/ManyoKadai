@@ -1,24 +1,26 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :not_logged_in
 
   PER = 10
   def index
-    @tasks = Task.all.order(created_at: "DESC").page(params[:page])
 
     if params[:sort_expired]
-      @tasks = Task.order("limit_date DESC").page(params[:page]).per(PER)
+      @tasks = current_user.tasks.order("limit_date DESC").page(params[:page]).per(PER)
     elsif params[:sort_priority]
-      @tasks = Task.order("priority ASC").page(params[:page]).per(PER)
+      @tasks = current_user.tasks.order("priority ASC").page(params[:page]).per(PER)
+    elsif
+      @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(PER)
     end
 
 
     if params[:search].present?
       if params[:title].present? && params[:status].present?
-        @tasks = @tasks.get_by_title(params[:title]).get_by_status(params[:status]).page(params[:page]).per(PER)
+        @tasks = current_user.tasks.get_by_title(params[:title]).get_by_status(params[:status]).page(params[:page]).per(PER)
       elsif params[:title].present?
-        @tasks = @tasks.get_by_title(params[:title]).page(params[:page]).per(PER)
+        @tasks = current_user.tasks.get_by_title(params[:title]).page(params[:page]).per(PER)
       elsif params[:status].present?
-        @tasks = @tasks.get_by_status(params[:status]).page(params[:page]).per(PER)
+        @tasks = current_user.tasks.get_by_status(params[:status]).page(params[:page]).per(PER)
       end
     end
   end
@@ -37,9 +39,9 @@ class TasksController < ApplicationController
     if params[:back]
       render :new
     else
-      @task = Task.new(task_params)
+      @task = current_user.tasks.build(task_params)
       if @task.save
-        redirect_to tasks_path(@task), notice: "タスクを作成しました!"
+        redirect_to tasks_path(@task.id), notice: "タスクを作成しました!"
       else
         render :new
       end
@@ -51,7 +53,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task), notice: "タスクを編集しました！"
+      redirect_to task_path, notice: "タスクを編集しました！"
     else
       render :edit
     end
@@ -69,7 +71,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-  @task = Task.find(params[:id])
+    @task = current_user.tasks.find(params[:id])
   end
 
   def task_params
