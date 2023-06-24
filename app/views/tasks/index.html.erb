@@ -10,6 +10,7 @@
           <%= form.text_field :title,value: params[:title] %>
           <%= form.label :status, 'ステータス検索' %>
           <%= form.select :status,Task.statuses.keys,selected: params[:status],include_blank:"選択する" %>
+          <%= form.label :status, 'ラベル検索' %>
           <%= form.select :label_ids, Label.pluck(:name, :id), {include_blank: true } %>
           <%= form.hidden_field :search, value: 'true' %>
           <%= form.submit '検索' %>
