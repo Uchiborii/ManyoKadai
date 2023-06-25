@@ -11,9 +11,9 @@
   </thead>
 
   <tbody>
-    <% @labels.each do |label| %>
+    <% @labels.each do |labels| %>
       <tr>
-        <td><%= label.name %></td>
+        <td><%= labels.name %></td>
         <td><%= link_to 'Show', label %></td>
         <td><%= link_to 'Edit', edit_label_path(label) %></td>
         <td><%= link_to 'Destroy', label, method: :delete, data: { confirm: 'Are you sure?' } %></td>
