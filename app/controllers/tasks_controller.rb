@@ -13,7 +13,6 @@ class TasksController < ApplicationController
       @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(PER)
     end
 
-
     if params[:search].present?
       if params[:title].present? && params[:status].present?
         @tasks = current_user.tasks.get_by_title(params[:title]).get_by_status(params[:status]).page(params[:page]).per(PER)
@@ -21,6 +20,10 @@ class TasksController < ApplicationController
         @tasks = current_user.tasks.get_by_title(params[:title]).page(params[:page]).per(PER)
       elsif params[:status].present?
         @tasks = current_user.tasks.get_by_status(params[:status]).page(params[:page]).per(PER)
+      elsif params[:label_ids].present?
+        @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_ids] }).page(params[:page])
+      else
+        @tasks = @tasks.all.order(created_at: "DESC").page(params[:page])
       end
     end
   end
@@ -75,6 +78,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :limit_date, :status, :priority)
+    params.require(:task).permit(:name, :title, :content, :limit_date, :status, :priority, label_ids: [] )
   end
 end

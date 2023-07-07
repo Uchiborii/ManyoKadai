@@ -4,9 +4,9 @@
       <div id="error_explanation">
         <h2><%= @task.errors.count %>件のエラーがあります。</h2>
         <ul>
-        <% @task.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
+          <% @task.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
         </ul>
       </div>
     <% end %>
@@ -17,11 +17,11 @@
     </div>
 
     <div class="col-md-6">
-        <%= form.label :content, "タスク内容", class: 'form-label' %>
-        <%= form.text_field :content, class: 'form-control' %>
+      <%= form.label :content, "タスク内容", class: 'form-label' %>
+      <%= form.text_field :content, class: 'form-control' %>
     </div>
 
-<br>
+    <br>
 
     <div class="text-left">
       <%= form.label :limit_date, "終了期限", class: 'form-label' %>
@@ -36,6 +36,13 @@
     <div class="text-left">
       <%= form.label :priority, "優先度", class: 'form-label' %>
       <%= form.select :priority, options_for_select(Task.priorities.keys), { prompt: "選択" }, class: 'form-select' %>
+    </div>
+
+    <div class="text-left">
+      <% Label.all.each do |label| %>
+        <%= form.check_box :label_ids, {multiple: true, checked: @task.label_ids.include?(label.id), disabled: label[:disabled], include_hidden: false }, label[:id] %>
+        <%= form.label :label_ids, label.name, value: label[:id] %>
+      <% end %>
     </div>
 
     <div class="text-left">
